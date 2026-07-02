@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>CICLO — Painel de Treino</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ===== NAV LATERAL (desktop) / TOPO (mobile) ===== -->
+  <nav class="nav" id="nav">
+    <div class="nav-brand">
+      <span class="nav-brand-mark">●</span>
+      <span class="nav-brand-text">CICLO</span>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <button class="nav-link active" data-view="overview">
+        <span class="nav-link-icon">◆</span><span>Visão Geral</span>
+      </button>
+      <button class="nav-link" data-view="upper-a">
+        <span class="nav-link-icon">A</span><span>Upper A</span>
+      </button>
+      <button class="nav-link" data-view="lower-a">
+        <span class="nav-link-icon">A</span><span>Lower A</span>
+      </button>
+      <button class="nav-link" data-view="upper-b">
+        <span class="nav-link-icon">B</span><span>Upper B</span>
+      </button>
+      <button class="nav-link" data-view="lower-b">
+        <span class="nav-link-icon">B</span><span>Lower B</span>
+      </button>
+      <button class="nav-link" data-view="peso">
+        <span class="nav-link-icon">◈</span><span>Peso Corporal</span>
+      </button>
+      <button class="nav-link" data-view="ajustes">
+        <span class="nav-link-icon">⚙</span><span>Ajustes</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <main class="main">
+
+    <!-- Trilho de semanas (elemento assinatura, sempre visível) -->
+    <div class="rail-wrap">
+      <div class="rail" id="weekRail"></div>
+    </div>
+
+    <div id="viewRoot" class="view-root"></div>
+  </main>
+
+  <!-- ===== NAV MOBILE INFERIOR ===== -->
+  <nav class="tabbar" id="tabbar">
+    <button class="tab-link active" data-view="overview" aria-label="Visão Geral">◆</button>
+    <button class="tab-link" data-view="upper-a" aria-label="Upper A">A1</button>
+    <button class="tab-link" data-view="lower-a" aria-label="Lower A">A2</button>
+    <button class="tab-link" data-view="upper-b" aria-label="Upper B">B1</button>
+    <button class="tab-link" data-view="lower-b" aria-label="Lower B">B2</button>
+    <button class="tab-link" data-view="peso" aria-label="Peso">◈</button>
+    <button class="tab-link" data-view="ajustes" aria-label="Ajustes">⚙</button>
+  </nav>
+
+</div>
+
+<template id="tpl-toast">
+  <div class="toast"></div>
+</template>
+
+<script src="data.js"></script>
+<script src="storage.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
