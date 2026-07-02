@@ -5,12 +5,28 @@ let currentSemana = calcSemanaAtual();
 
 const viewRoot = document.getElementById("viewRoot");
 
+const VIEW_LABELS = {
+  overview: "Visão Geral",
+  "upper-a": "Treino · Upper A",
+  "lower-a": "Treino · Lower A",
+  "upper-b": "Treino · Upper B",
+  "lower-b": "Treino · Lower B",
+  peso: "Peso Corporal",
+  ajustes: "Ajustes",
+};
+
+function updateContentLabel() {
+  const label = document.getElementById("contentLabel");
+  if (label) label.textContent = VIEW_LABELS[currentView] || "";
+}
+
 function switchView(view) {
   currentView = view;
   document.querySelectorAll(".nav-link, .tab-link").forEach((el) => {
     el.classList.toggle("active", el.dataset.view === view);
   });
   render();
+  updateContentLabel();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -582,6 +598,7 @@ function render() {
   }
   renderWeekRail();
   render();
+  updateContentLabel();
 })();
 
 window.addEventListener("resize", () => {

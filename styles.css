@@ -140,6 +140,27 @@ a { color: inherit; }
 .rail-wrap {
   margin-bottom: 28px;
 }
+.rail-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 6px 10px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.rail-header-title {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.rail-header-hint {
+  font-size: 11px;
+  color: var(--text-faint);
+  font-style: italic;
+}
 .rail {
   display: flex;
   gap: 3px;
@@ -226,6 +247,35 @@ a { color: inherit; }
   color: var(--text-faint);
 }
 .rail-legend-dot { width: 8px; height: 8px; border-radius: 2px; }
+
+.content-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0 22px;
+}
+.content-divider-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.content-divider-label::before {
+  content: "▸";
+  color: var(--text-faint);
+}
+.content-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border-soft);
+}
 
 /* ============ SECTION / CARD PRIMITIVES ============ */
 .view-root { display: flex; flex-direction: column; gap: 24px; }
