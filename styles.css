@@ -603,6 +603,17 @@ textarea.backup-area {
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 .toast::before { content: "✓"; color: var(--good); font-weight: 700; }
 
+.rail-week.is-week-done .rail-plate {
+  background: linear-gradient(180deg, var(--good), #2e9c6a) !important;
+  border-color: var(--good) !important;
+  box-shadow: 0 0 0 2px var(--good-soft);
+}
+.rail-week.is-week-done.is-current .rail-plate {
+  background: var(--good) !important;
+  border-color: var(--good) !important;
+  box-shadow: 0 0 0 3px var(--good-soft);
+}
+.rail-week.is-week-done .rail-num { color: var(--good); font-weight: 700; }
 .rail-week.is-week-done .rail-num::after {
   content: "";
   display: block;
