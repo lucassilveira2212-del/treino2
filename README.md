@@ -1,4 +1,4 @@
-# CICLO — Painel de Treino
+# Bulking Lucão — Painel de Treino
 
 App de acompanhamento do bulking de 26 semanas (Upper A / Lower A / Upper B / Lower B),
 com periodização automática de RPE/reps por mesociclo e controle de peso corporal.

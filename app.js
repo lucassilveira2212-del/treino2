@@ -45,6 +45,9 @@ function renderWeekRail() {
     if (s === currentSemana) el.classList.add("is-current");
     if (s < currentSemana) el.classList.add("is-past");
 
+    const semanaCompleta = ORDEM_DIAS.every((d) => getConcluido(d, s));
+    if (semanaCompleta) el.classList.add("is-week-done");
+
     const plate = document.createElement("div");
     plate.className = "rail-plate";
     el.appendChild(plate);
@@ -57,7 +60,7 @@ function renderWeekRail() {
     const tip = document.createElement("div");
     tip.className = "rail-tooltip";
     const mesoLabel = meso === "Final" ? "Deload Final" : `Mesociclo ${meso}`;
-    tip.textContent = `Semana ${s} · ${mesoLabel}${isDeload(s) ? " · DELOAD" : ""}`;
+    tip.textContent = `Semana ${s} · ${mesoLabel}${isDeload(s) ? " · DELOAD" : ""}${semanaCompleta ? " · ✓ completa" : ""}`;
     el.appendChild(tip);
 
     el.addEventListener("click", () => {
@@ -97,6 +100,9 @@ function renderOverview() {
   const diffParaMeta = ultimoPesoReal ? (CONFIG.pesoMeta - ultimoPesoReal).toFixed(1) : null;
 
   const diaHoje = ORDEM_DIAS[(currentSemana - 1) % ORDEM_DIAS.length]; // sugestão simples
+  const hojeConcluido = getConcluido(diaHoje, currentSemana);
+
+  const semanaConcluidos = ORDEM_DIAS.filter((d) => getConcluido(d, currentSemana)).length;
 
   viewRoot.innerHTML = `
     <div class="page-header">
@@ -113,7 +119,7 @@ function renderOverview() {
       <div class="today-left">
         <div class="today-badge">${DIAS[diaHoje].label.replace("Upper ", "U").replace("Lower ", "L")}</div>
         <div>
-          <p class="today-title">Próximo treino sugerido: ${DIAS[diaHoje].label}</p>
+          <p class="today-title">Próximo treino sugerido: ${DIAS[diaHoje].label} ${hojeConcluido ? '<span class="pill pill-good" style="margin-left:8px">✓ Concluído</span>' : ""}</p>
           <p class="today-meta">${DIAS[diaHoje].sub} · Fase: ${fase}${deload ? " (recuperação ativa)" : ""}</p>
         </div>
       </div>
@@ -127,9 +133,9 @@ function renderOverview() {
         <span class="stat-hint">Sem. ${semCiclo}/6 do mesociclo</span>
       </div>
       <div class="card stat-card">
-        <span class="stat-label">Fase da Semana</span>
-        <span class="stat-value" style="font-size:22px">${fase}</span>
-        <span class="stat-hint">${deload ? "Volume reduzido, RPE baixo" : "Progressão de intensidade"}</span>
+        <span class="stat-label">Treinos na Semana</span>
+        <span class="stat-value">${semanaConcluidos}<span> / 4</span></span>
+        <span class="stat-hint">${semanaConcluidos === 4 ? "Semana completa 💪" : "Concluídos até agora"}</span>
       </div>
       <div class="card stat-card">
         <span class="stat-label">Peso Meta (semana)</span>
@@ -185,6 +191,7 @@ function renderDia(diaId) {
   const deload = isDeload(currentSemana);
   const semCiclo = semanaNoCiclo(currentSemana);
   const fase = PARAMETROS[semCiclo].fase;
+  const concluido = getConcluido(diaId, currentSemana);
 
   const exercisesHtml = dia.exercicios
     .map((ex, idx) => {
@@ -236,8 +243,25 @@ function renderDia(diaId) {
       }
     </div>
 
+    <label class="complete-toggle ${concluido ? "is-done" : ""}" id="completeToggle">
+      <input type="checkbox" id="concluidoCheckbox" ${concluido ? "checked" : ""}>
+      <span class="complete-box">${concluido ? "✓" : ""}</span>
+      <span class="complete-label">${concluido ? "Treino concluído" : "Marcar treino como concluído"}</span>
+    </label>
+
     <div class="ex-list">${exercisesHtml}</div>
   `;
+
+  document.getElementById("concluidoCheckbox").addEventListener("change", (e) => {
+    const val = e.target.checked;
+    setConcluido(diaId, currentSemana, val);
+    const toggle = document.getElementById("completeToggle");
+    toggle.classList.toggle("is-done", val);
+    toggle.querySelector(".complete-box").textContent = val ? "✓" : "";
+    toggle.querySelector(".complete-label").textContent = val ? "Treino concluído" : "Marcar treino como concluído";
+    showToast(val ? "Treino marcado como concluído" : "Marcação removida");
+    renderWeekRail();
+  });
 
   // bind inputs
   viewRoot.querySelectorAll(".ex-card").forEach((card) => {

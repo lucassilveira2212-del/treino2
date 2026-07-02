@@ -3,6 +3,7 @@
 const STORE_KEYS = {
   logs: "treino_logs_v1",        // { "diaId_exId_semana": { carga, rpeReal } }
   peso: "treino_peso_v1",        // { semana: { real, bf } }
+  concluido: "treino_concluido_v1", // { "diaId_semana": true/false }
   startDate: "treino_start_date",
   currentWeekOverride: "treino_week_override",
 };
@@ -31,6 +32,18 @@ function setLog(diaId, exId, semana, data) {
   const logs = loadJSON(STORE_KEYS.logs, {});
   logs[`${diaId}_${exId}_${semana}`] = data;
   saveJSON(STORE_KEYS.logs, logs);
+}
+
+// ---- Treino concluído (checkbox por dia+semana) ----
+function getConcluido(diaId, semana) {
+  const map = loadJSON(STORE_KEYS.concluido, {});
+  return !!map[`${diaId}_${semana}`];
+}
+
+function setConcluido(diaId, semana, value) {
+  const map = loadJSON(STORE_KEYS.concluido, {});
+  map[`${diaId}_${semana}`] = value;
+  saveJSON(STORE_KEYS.concluido, map);
 }
 
 // ---- Peso corporal ----
@@ -93,6 +106,7 @@ function exportBackup() {
     exportedAt: new Date().toISOString(),
     logs: loadJSON(STORE_KEYS.logs, {}),
     peso: loadJSON(STORE_KEYS.peso, {}),
+    concluido: loadJSON(STORE_KEYS.concluido, {}),
     startDate: getStartDate(),
     weekOverride: getWeekOverride(),
   };
@@ -103,6 +117,7 @@ function importBackup(jsonStr) {
   const data = JSON.parse(jsonStr);
   if (data.logs) saveJSON(STORE_KEYS.logs, data.logs);
   if (data.peso) saveJSON(STORE_KEYS.peso, data.peso);
+  if (data.concluido) saveJSON(STORE_KEYS.concluido, data.concluido);
   if (data.startDate) setStartDate(data.startDate);
   if (data.weekOverride) setWeekOverride(data.weekOverride);
 }
@@ -110,6 +125,7 @@ function importBackup(jsonStr) {
 function resetAllData() {
   localStorage.removeItem(STORE_KEYS.logs);
   localStorage.removeItem(STORE_KEYS.peso);
+  localStorage.removeItem(STORE_KEYS.concluido);
   localStorage.removeItem(STORE_KEYS.startDate);
   localStorage.removeItem(STORE_KEYS.currentWeekOverride);
 }
