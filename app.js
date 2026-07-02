@@ -120,6 +120,9 @@ function renderOverview() {
 
   const semanaConcluidos = ORDEM_DIAS.filter((d) => getConcluido(d, currentSemana)).length;
 
+  const badgeIcon = diaHoje.startsWith("upper") ? "💪" : "🦵";
+  const badgeLetter = diaHoje.endsWith("a") ? "A" : "B";
+
   viewRoot.innerHTML = `
     <div class="page-header">
       <div>
@@ -133,7 +136,7 @@ function renderOverview() {
 
     <div class="card today-card">
       <div class="today-left">
-        <div class="today-badge">${DIAS[diaHoje].label.replace("Upper ", "U").replace("Lower ", "L")}</div>
+        <div class="today-badge">${badgeIcon}<span class="today-badge-letter">${badgeLetter}</span></div>
         <div>
           <p class="today-title">Próximo treino sugerido: ${DIAS[diaHoje].label} ${hojeConcluido ? '<span class="pill pill-good" style="margin-left:8px">✓ Concluído</span>' : ""}</p>
           <p class="today-meta">${DIAS[diaHoje].sub} · Fase: ${fase}${deload ? " (recuperação ativa)" : ""}</p>
